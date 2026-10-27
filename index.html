@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#16324F">
+<title>Monthly Update · Aspironix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#16324F; --ink:#0F1B2D; --teal:#0E7C7B; --teal-d:#0A6564; --teal-bg:#E5F3F2;
+  --gray:#667085; --body:#2A3546; --line:#E4E8EE; --soft:#F6F8FA; --white:#fff;
+  --orange:#B4540A; --orange-bg:#FDF1E3; --red:#C2410C; --blue-bg:#EAEFF5;
+  --radius:12px; --shadow:0 1px 2px rgba(15,27,45,.06),0 4px 16px rgba(15,27,45,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--soft);color:var(--ink);line-height:1.5;min-height:100vh;display:flex;flex-direction:column}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* top bar */
+.top{background:var(--navy);color:#fff}
+.top__in{max-width:720px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;opacity:.92}
+.langs{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:8px;padding:2px}
+.langs button{font-size:12px;font-weight:600;padding:5px 9px;border-radius:6px;color:rgba(255,255,255,.75)}
+.langs button[aria-pressed="true"]{background:#fff;color:var(--navy)}
+
+main{flex:1;width:100%;max-width:720px;margin:0 auto;padding:28px 16px 40px}
+.screen{display:none}
+.screen.is-active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
+h1{font-size:clamp(26px,5vw,34px);line-height:1.15;letter-spacing:-.02em;margin-top:8px;font-weight:700}
+.lead{color:var(--body);margin-top:10px;font-size:15.5px;max-width:58ch}
+.lock{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:12.5px;font-weight:600;color:var(--teal-d);background:var(--teal-bg);padding:5px 10px;border-radius:999px}
+.lock svg{width:13px;height:13px}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-top:16px;box-shadow:var(--shadow)}
+.label{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:10px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;color:var(--body);transition:all .15s}
+.chip small{font-weight:500;color:var(--gray);margin-left:4px}
+.chip:hover{border-color:#c9d1db}
+.chip[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-bg);color:var(--teal-d)}
+.chip[aria-pressed="true"] small{color:var(--teal-d)}
+.input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;font-size:15px}
+.input:focus{border-color:var(--teal);outline:0}
+#other-wrap{margin-top:10px;display:none}
+
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;text-align:left;background:#fff;transition:all .15s}
+.seg b{display:block;font-size:14.5px}
+.seg span{display:block;font-size:12.5px;color:var(--gray);margin-top:1px}
+.seg[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-bg)}
+.seg.urgent[aria-pressed="true"]{border-color:var(--orange);background:var(--orange-bg)}
+.urgent-note{display:none;margin-top:10px;font-size:13px;color:var(--orange);background:var(--orange-bg);border-radius:8px;padding:8px 10px}
+#period-wrap{margin-top:12px}
+select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23667085' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+
+/* mode cards */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mode{border:1.5px solid var(--line);border-radius:var(--radius);padding:16px;text-align:left;background:#fff;transition:all .15s;display:flex;flex-direction:column;gap:10px}
+.mode:hover{border-color:#c9d1db;transform:translateY(-1px)}
+.mode .ic{width:40px;height:40px;border-radius:10px;background:var(--blue-bg);color:var(--navy);display:flex;align-items:center;justify-content:center}
+.mode .ic svg{width:21px;height:21px}
+.mode b{display:block;font-size:16px}
+.mode span{display:block;font-size:13px;color:var(--gray);line-height:1.4;margin-top:2px}
+.mode[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-bg)}
+.mode[aria-pressed="true"] .ic{background:var(--teal);color:#fff}
+
+.nothing{display:flex;align-items:center;gap:12px;width:100%;text-align:left;margin-top:12px;padding:12px 14px;border:1.5px dashed #cdd5df;border-radius:var(--radius);background:transparent}
+.nothing:hover{background:#fff}
+.nothing .box{width:20px;height:20px;border:1.5px solid #b8c2cf;border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;background:#fff}
+.nothing[aria-pressed="true"]{border-style:solid;border-color:var(--teal);background:var(--teal-bg)}
+.nothing[aria-pressed="true"] .box{background:var(--teal);border-color:var(--teal)}
+.nothing .box svg{width:12px;height:12px;display:none}
+.nothing[aria-pressed="true"] .box svg{display:block}
+.nothing b{display:block;font-size:14.5px}
+.nothing b{color:var(--ink)}
+.nothing b + span{display:block;font-size:12.5px;color:var(--gray)}
+
+/* actions */
+.actions{display:flex;gap:10px;margin-top:22px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:13px 20px;font-weight:600;font-size:15px;transition:all .15s}
+.btn--primary{background:var(--navy);color:#fff;flex:1}
+.btn--primary:hover{background:#0f2740}
+.btn--primary:disabled{opacity:.55;cursor:default}
+.btn--ghost{border:1.5px solid var(--line);background:#fff;color:var(--body)}
+.btn--ghost:hover{border-color:#c9d1db}
+.btn svg{width:17px;height:17px}
+.err{color:var(--red);font-size:13.5px;margin-top:12px;min-height:1px}
+
+/* header of step screens */
+.stephead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.who-pill{font-size:12.5px;font-weight:600;color:var(--navy);background:var(--blue-bg);padding:5px 10px;border-radius:999px}
+.who-pill.urgent{background:var(--orange-bg);color:var(--orange)}
+.hint{font-size:13.5px;color:var(--gray);margin-top:6px}
+
+/* write mode */
+.q{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-top:12px;box-shadow:var(--shadow)}
+.q__head{display:flex;gap:12px;align-items:flex-start}
+.q__n{width:26px;height:26px;border-radius:7px;background:var(--ink);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+.q__t b{display:block;font-size:15.5px}
+.q__t span{display:block;font-size:13.5px;color:var(--gray);line-height:1.45;margin-top:2px}
+.q textarea{margin-top:12px;min-height:84px;resize:vertical;line-height:1.5}
+.q__foot{display:flex;justify-content:flex-end;margin-top:8px}
+.dict{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--teal-d);padding:6px 10px;border-radius:8px;background:var(--teal-bg)}
+.dict svg{width:14px;height:14px}
+.dict.on{background:var(--orange);color:#fff}
+.dict.on svg{animation:pulse 1s infinite}
+.q.done .q__n{background:var(--teal)}
+
+/* voice mode */
+.guide{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-top:16px;box-shadow:var(--shadow)}
+.guide ol{list-style:none;margin-top:4px}
+.guide li{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+.guide li:last-child{border-bottom:0}
+.guide .n{width:22px;height:22px;border-radius:6px;background:var(--ink);color:#fff;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px;transition:background .15s}
+.guide b{display:block;font-size:14.5px}
+.guide span{display:block;font-size:13px;color:var(--gray);line-height:1.4}
+.guide li.ticked .n{background:var(--teal)}
+.guide li.ticked b{color:var(--teal-d)}
+.guide .tip{font-size:12px;color:var(--gray);margin-top:8px}
+
+.rec{position:sticky;bottom:12px;z-index:5;background:var(--navy);color:#fff;border-radius:16px;padding:14px 16px;margin-top:16px;display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:center;box-shadow:0 10px 30px rgba(15,27,45,.28)}
+.recbtn{width:64px;height:64px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .15s,background .15s}
+.recbtn:hover{transform:scale(1.04)}
+.recbtn svg{width:28px;height:28px;position:relative;z-index:1}
+.recinfo{min-width:0}
+.recbtn.on{background:#E2552F}
+.recbtn.on::before{content:"";position:absolute;inset:-8px;border-radius:50%;border:3px solid rgba(226,85,47,.45);animation:ring 1.4s infinite}
+@keyframes ring{0%{transform:scale(.92);opacity:1}100%{transform:scale(1.18);opacity:0}}
+@keyframes pulse{50%{opacity:.4}}
+.timer{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em;line-height:1.1}
+.recstate{font-size:13px;opacity:.82;margin-top:2px}
+.meter{display:flex;gap:3px;align-items:center;height:26px;margin-top:6px}
+.meter i{display:block;width:4px;border-radius:2px;background:rgba(255,255,255,.35);height:4px;transition:height .08s}
+.rec.live .meter i{background:#8EE3D8}
+.playback{grid-column:1/-1;width:100%;margin-top:10px;display:none}
+.playback audio{width:100%}
+.rerec{grid-column:1/-1;justify-self:start;margin-top:8px;font-size:13px;font-weight:600;color:#cfe9e6;text-decoration:underline;display:none}
+
+.tx{margin-top:16px}
+.tx .label{display:flex;align-items:center;gap:8px}
+.tx .dot{width:7px;height:7px;border-radius:50%;background:#E2552F;display:none}
+.tx.live .dot{display:inline-block;animation:pulse 1s infinite}
+.tx textarea{min-height:120px;resize:vertical}
+.tx .interim{color:var(--gray);font-style:italic;font-size:13.5px;margin-top:6px;min-height:1px}
+.na{font-size:13px;color:var(--gray);background:#fff;border:1px dashed #cdd5df;border-radius:10px;padding:10px 12px;margin-top:16px;display:none}
+
+/* done */
+.done{text-align:center;padding-top:24px}
+.done .tick{width:72px;height:72px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.done .tick svg{width:36px;height:36px}
+.done h1{margin-top:18px}
+.done .lead{margin-left:auto;margin-right:auto}
+.done .ref{font-size:12px;color:var(--gray);margin-top:14px}
+.done .actions{justify-content:center}
+.done .btn--ghost{flex:none}
+
+.sendbox{display:none;margin-top:12px;padding:12px;border-radius:10px;background:var(--orange-bg);color:var(--orange);font-size:13.5px}
+.sendbox .actions{margin-top:10px}
+
+footer{font-size:12px;color:var(--gray);text-align:center;padding:18px 16px 26px}
+
+@media (max-width:520px){
+  main{padding-top:22px}
+  .modes{grid-template-columns:1fr}
+  .mode{flex-direction:row;align-items:center}
+  .mode .ic{flex:none}
+  .row2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="top__in">
+  <div class="brand" data-t="brand">Aspironix · Internal</div>
+  <div class="langs" id="langs" role="group" aria-label="Language">
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="cs">CZ</button>
+    <button type="button" data-lang="sk">SK</button>
+    <button type="button" data-lang="pl">PL</button>
+  </div>
+</div></header>
+
+<main>
+
+  <!-- START -->
+  <section class="screen is-active" id="s-start">
+    <div class="eyebrow" data-t="eyebrow"></div>
+    <h1 data-t="title"></h1>
+    <p class="lead" data-t="lead"></p>
+    <div class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span data-t="lock"></span></div>
+
+    <div class="card">
+      <span class="label" data-t="who"></span>
+      <div class="chips" id="people"></div>
+      <div id="other-wrap"><input class="input" id="other-name" autocomplete="name" data-tp="otherPh"></div>
+    </div>
+
+    <div class="card">
+      <span class="label" data-t="type"></span>
+      <div class="row2">
+        <button type="button" class="seg" data-type="monthly" aria-pressed="true"><b data-t="monthly"></b><span data-t="monthlySub"></span></button>
+        <button type="button" class="seg urgent" data-type="urgent" aria-pressed="false"><b data-t="urgent"></b><span data-t="urgentSub"></span></button>
+      </div>
+      <div class="urgent-note" id="urgent-note" data-t="urgentHint"></div>
+      <div id="period-wrap">
+        <span class="label" data-t="period" style="margin-bottom:8px"></span>
+        <select class="input" id="period"></select>
+      </div>
+    </div>
+
+    <div class="card" id="how-card">
+      <span class="label" data-t="how"></span>
+      <div class="modes">
+        <button type="button" class="mode" data-mode="write" aria-pressed="false">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+          <div><b data-t="write"></b><span data-t="writeSub"></span></div>
+        </button>
+        <button type="button" class="mode" data-mode="voice" aria-pressed="false">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M8 22h8"/></svg></div>
+          <div><b data-t="say"></b><span data-t="saySub"></span></div>
+        </button>
+      </div>
+      <button type="button" class="nothing" id="nothing" aria-pressed="false">
+        <span class="box"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"/></svg></span>
+        <span><b data-t="nothing"></b><span data-t="nothingSub"></span></span>
+      </button>
+    </div>
+
+    <p class="err" id="start-err" role="alert"></p>
+    <div class="actions"><button type="button" class="btn btn--primary" id="start-go"><span data-t="continue"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+  </section>
+
+  <!-- WRITE -->
+  <section class="screen" id="s-write">
+    <div class="stephead"><div class="eyebrow" data-t="eyebrow"></div><span class="who-pill" data-whopill></span></div>
+    <h1 data-t="writeTitle"></h1>
+    <p class="hint" data-t="optional"></p>
+    <div id="qs"></div>
+    <div class="sendbox" data-sendbox><span data-t="errSend"></span><div class="actions"><button type="button" class="btn btn--ghost" data-retry data-t="retry"></button><button type="button" class="btn btn--ghost" data-download data-t="download"></button></div></div>
+    <p class="err" id="write-err" role="alert"></p>
+    <div class="actions">
+      <button type="button" class="btn btn--ghost" data-back data-t="back"></button>
+      <button type="button" class="btn btn--primary" data-send><span data-t="send"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z"/></svg></button>
+    </div>
+  </section>
+
+  <!-- VOICE -->
+  <section class="screen" id="s-voice">
+    <div class="stephead"><div class="eyebrow" data-t="eyebrow"></div><span class="who-pill" data-whopill></span></div>
+    <h1 data-t="voiceTitle"></h1>
+
+    <div class="guide">
+      <span class="label" data-t="guideTitle"></span>
+      <ol id="guide"></ol>
+      <div class="tip" data-t="guideTip"></div>
+    </div>
+
+    <div class="rec" id="rec">
+      <button type="button" class="recbtn" id="recbtn" aria-label="Record">
+        <svg id="ic-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M8 22h8"/></svg>
+        <svg id="ic-stop" viewBox="0 0 24 24" style="display:none"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor"/></svg>
+      </button>
+      <div class="recinfo">
+        <div class="timer" id="timer">0:00</div>
+        <div class="recstate" id="recstate"></div>
+        <div class="meter" id="meter"></div>
+      </div>
+      <div class="playback" id="playback"><audio id="audio" controls preload="metadata"></audio></div>
+      <button type="button" class="rerec" id="rerec" data-t="reRecord"></button>
+    </div>
+
+    <div class="tx" id="tx">
+      <span class="label"><span class="dot"></span><span data-t="transcriptLabel"></span></span>
+      <textarea class="input" id="transcript" data-tp="transcriptPh"></textarea>
+      <div class="interim" id="interim"></div>
+    </div>
+    <div class="na" id="tx-na" data-t="transcriptNA"></div>
+
+    <div class="tx">
+      <span class="label" data-t="noteLabel"></span>
+      <textarea class="input" id="note" style="min-height:70px"></textarea>
+    </div>
+
+    <div class="sendbox" data-sendbox><span data-t="errSend"></span><div class="actions"><button type="button" class="btn btn--ghost" data-retry data-t="retry"></button><button type="button" class="btn btn--ghost" data-download data-t="download"></button></div></div>
+    <p class="err" id="voice-err" role="alert"></p>
+    <div class="actions">
+      <button type="button" class="btn btn--ghost" data-back data-t="back"></button>
+      <button type="button" class="btn btn--primary" data-send><span data-t="send"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z"/></svg></button>
+    </div>
+  </section>
+
+  <!-- DONE -->
+  <section class="screen" id="s-done">
+    <div class="done">
+      <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17l9-10"/></svg></div>
+      <h1 data-t="doneTitle"></h1>
+      <p class="lead" data-t="doneSub"></p>
+      <div class="ref" id="ref"></div>
+      <div class="actions"><button type="button" class="btn btn--ghost" id="another" data-t="another"></button></div>
+    </div>
+  </section>
+
+</main>
+
+<footer data-t="privacy"></footer>
+
+<script>
+/* =====================================================================
+   CONFIG — the only part you normally edit
+   ===================================================================== */
+const CONFIG = {
+  // Google Apps Script web app URL (Deploy → Web app → URL ending in /exec)
+  endpoint: 'https://script.google.com/macros/s/AKfycbx8dRoKfc0PSQv92dhZKqrKztMLNEGkm7UBMhIXFiuXtASGnCrsAibUgYBb_1FOOZTQcQ/exec',
+  // Shared key – must match KEY in the Apps Script (stops random spam, not a password)
+  key: 'aspx-solv-2026',
+  people: [
+    { id: 'cyril',  name: 'Cyril',  tag: 'CZ',  lang: 'cs' },
+    { id: 'marek',  name: 'Marek',  tag: 'SK',  lang: 'sk' },
+    { id: 'piotr',  name: 'Piotr',  tag: 'PL',  lang: 'pl' },
+    { id: 'lubos',  name: 'Luboš',  tag: 'CFO', lang: 'cs' },
+    { id: 'zdenek', name: 'Zdeněk', tag: 'Logistics', lang: 'cs' }
+  ],
+  maxRecordSeconds: 900
+};
+
+/* =====================================================================
+   TEXTS
+   ===================================================================== */
+const T = {
+en:{brand:'Aspironix · Internal',eyebrow:'Monthly Solventum update',title:'What happened with Solventum?',
+lead:'Six short questions. Write or speak, in whichever language you like. It goes straight to David.',
+lock:'Internal only — never shared with Solventum',
+who:'Who are you?',other:'Someone else',otherPh:'Your name',type:'Type of update',
+monthly:'Monthly update',monthlySub:'For the past month',urgent:'Urgent',urgentSub:"Can't wait for month-end",
+urgentHint:'Escalation, price change, new person at Solventum, a missed promise — send it now.',
+period:'For which month?',how:'How do you want to answer?',
+write:'Write it',writeSub:'Answer the six questions one by one',say:'Say it',saySub:'Record a voice message, with the questions as a guide',
+nothing:'Nothing happened',nothingSub:'Send a quick “no update” — that counts too.',
+continue:'Continue',back:'Back',send:'Send to David',sending:'Sending…',
+writeTitle:'Your update',optional:'Skip anything that doesn’t apply. Bullet points are fine.',
+voiceTitle:'Record your update',guideTitle:'Talk through these — any order',guideTip:'Tap a point to tick it off while you talk.',
+dictate:'Dictate',listening:'Listening…',
+rec:'Tap to start recording',recording:'Recording — tap to stop',recDone:'Recorded. Listen back or send.',reRecord:'Discard and record again',
+transcriptLabel:'Live transcript — you can correct it',transcriptPh:'Your words appear here while you speak…',
+transcriptNA:'Live transcript isn’t available in this browser. No problem — David gets the recording.',
+noteLabel:'Anything to add in writing? (optional)',
+micDenied:'Microphone access is blocked. Allow it in the browser settings, or go back and choose “Write it”.',
+needName:'Pick your name first.',needMode:'Choose how you want to answer.',
+needContent:'Write at least one answer, record a message, or tick “Nothing happened”.',
+needRec:'Record a message first (or add a written note).',
+doneTitle:'Thanks — David has it.',doneSub:'It goes into the Relationship Chronicle in English. Nothing comes back to you for review.',
+doneNo:'Noted: no update this month. Thanks for letting David know.',
+another:'Send another update',
+errSend:'Couldn’t send. Check your connection and try again — your answers stay saved on this device.',
+retry:'Try again',download:'Download a copy',ref:'Reference',
+privacy:'Internal Aspironix tool · Answers go only to David Šeketa',
+q:[['Contact','Meetings, calls, emails with Solventum — who, when, what about?'],
+['Commitments','What did Solventum promise, and what did we promise? Who, to whom, by when — delivered?'],
+['News','Anything new on their side? People, roles, pricing, device availability, products, marketing/MDF, who decides what?'],
+['Patterns','Did anything surprise you, or does something keep repeating?'],
+['Unknowns','What don’t we know that we should find out?'],
+['Anything else','Anything about Solventum we didn’t ask about?']]},
+
+cs:{brand:'Aspironix · Interní',eyebrow:'Měsíční update k Solventu',title:'Co se dělo se Solventem?',
+lead:'Šest krátkých otázek. Napiš, nebo namluv, v jakémkoli jazyce. Jde to rovnou Davidovi.',
+lock:'Jen interně — Solventum to nikdy neuvidí',
+who:'Kdo jsi?',other:'Někdo jiný',otherPh:'Tvoje jméno',type:'Typ updatu',
+monthly:'Měsíční update',monthlySub:'Za uplynulý měsíc',urgent:'Urgentní',urgentSub:'Nepočká do konce měsíce',
+urgentHint:'Eskalace, změna cen, nový člověk u Solventa, nesplněný slib — pošli to hned.',
+period:'Za jaký měsíc?',how:'Jak chceš odpovědět?',
+write:'Napsat',writeSub:'Odpovíš postupně na šest otázek',say:'Namluvit',saySub:'Nahraješ hlasovku, otázky uvidíš jako tahák',
+nothing:'Nic se nestalo',nothingSub:'Pošli rychlé „no update“ — i to se počítá.',
+continue:'Pokračovat',back:'Zpět',send:'Odeslat Davidovi',sending:'Odesílám…',
+writeTitle:'Tvůj update',optional:'Co se tě netýká, přeskoč. Stačí odrážky.',
+voiceTitle:'Namluv svůj update',guideTitle:'Projdi tyhle body — v libovolném pořadí',guideTip:'Během mluvení si bod ťukem odškrtneš.',
+dictate:'Diktovat',listening:'Poslouchám…',
+rec:'Klepni a začni nahrávat',recording:'Nahrávám — klepnutím ukončíš',recDone:'Nahráno. Poslechni si to, nebo odešli.',reRecord:'Zahodit a nahrát znovu',
+transcriptLabel:'Přepis v reálném čase — můžeš ho opravit',transcriptPh:'Tady se objeví, co říkáš…',
+transcriptNA:'Živý přepis v tomhle prohlížeči nefunguje. Nevadí — David dostane nahrávku.',
+noteLabel:'Chceš něco dopsat? (nepovinné)',
+micDenied:'Přístup k mikrofonu je zablokovaný. Povol ho v nastavení prohlížeče, nebo se vrať a zvol „Napsat“.',
+needName:'Nejdřív vyber své jméno.',needMode:'Vyber, jak chceš odpovědět.',
+needContent:'Napiš aspoň jednu odpověď, nahraj hlasovku, nebo zaškrtni „Nic se nestalo“.',
+needRec:'Nejdřív nahraj hlasovku (nebo něco dopiš).',
+doneTitle:'Díky — David to má.',doneSub:'Zapíše se to anglicky do Kroniky vztahu. Nic ti nepřijde zpátky ke kontrole.',
+doneNo:'Zapsáno: tento měsíc bez updatu. Díky, že ses ozval.',
+another:'Poslat další update',
+errSend:'Nepodařilo se odeslat. Zkontroluj připojení a zkus to znovu — odpovědi zůstávají uložené v tomhle zařízení.',
+retry:'Zkusit znovu',download:'Stáhnout kopii',ref:'Číslo',
+privacy:'Interní nástroj Aspironix · Odpovědi vidí jen David Šeketa',
+q:[['Kontakt','Schůzky, hovory, maily se Solventem — s kým, kdy a o čem?'],
+['Závazky','Co slíbil Solventum a co jsme slíbili my? Kdo, komu, do kdy — splnilo se to?'],
+['Novinky','Co je u nich nového? Lidi, role, ceny, dostupnost přístrojů, produkty, marketing/MDF, kdo o čem rozhoduje?'],
+['Vzorce','Překvapilo tě něco, nebo se něco opakuje?'],
+['Neznámé','Co nevíme a měli bychom zjistit?'],
+['Cokoli dalšího','Je ještě něco ke Solventu, na co jsme se nezeptali?']]},
+
+sk:{brand:'Aspironix · Interné',eyebrow:'Mesačný update k Solventu',title:'Čo sa dialo so Solventom?',
+lead:'Šesť krátkych otázok. Napíš alebo nahovor, v akomkoľvek jazyku. Ide to priamo Davidovi.',
+lock:'Len interne — Solventum to nikdy neuvidí',
+who:'Kto si?',other:'Niekto iný',otherPh:'Tvoje meno',type:'Typ updatu',
+monthly:'Mesačný update',monthlySub:'Za uplynulý mesiac',urgent:'Urgentné',urgentSub:'Nepočká do konca mesiaca',
+urgentHint:'Eskalácia, zmena cien, nový človek v Solventume, nesplnený sľub — pošli to hneď.',
+period:'Za ktorý mesiac?',how:'Ako chceš odpovedať?',
+write:'Napísať',writeSub:'Odpovieš postupne na šesť otázok',say:'Nahovoriť',saySub:'Nahráš hlasovku, otázky uvidíš ako ťahák',
+nothing:'Nič sa nestalo',nothingSub:'Pošli rýchle „no update“ — aj to sa počíta.',
+continue:'Pokračovať',back:'Späť',send:'Odoslať Davidovi',sending:'Odosielam…',
+writeTitle:'Tvoj update',optional:'Čo sa ťa netýka, preskoč. Stačia odrážky.',
+voiceTitle:'Nahovor svoj update',guideTitle:'Prejdi tieto body — v ľubovoľnom poradí',guideTip:'Počas rozprávania si bod ťuknutím odškrtneš.',
+dictate:'Diktovať',listening:'Počúvam…',
+rec:'Ťukni a začni nahrávať',recording:'Nahrávam — ťuknutím ukončíš',recDone:'Nahrané. Vypočuj si to alebo odošli.',reRecord:'Zahodiť a nahrať znova',
+transcriptLabel:'Prepis v reálnom čase — môžeš ho opraviť',transcriptPh:'Tu sa objaví, čo hovoríš…',
+transcriptNA:'Živý prepis v tomto prehliadači nefunguje. Nevadí — David dostane nahrávku.',
+noteLabel:'Chceš niečo dopísať? (nepovinné)',
+micDenied:'Prístup k mikrofónu je zablokovaný. Povoľ ho v nastaveniach prehliadača alebo sa vráť a zvoľ „Napísať“.',
+needName:'Najprv vyber svoje meno.',needMode:'Vyber, ako chceš odpovedať.',
+needContent:'Napíš aspoň jednu odpoveď, nahraj hlasovku alebo zaškrtni „Nič sa nestalo“.',
+needRec:'Najprv nahraj hlasovku (alebo niečo dopíš).',
+doneTitle:'Vďaka — David to má.',doneSub:'Zapíše sa to po anglicky do Kroniky vzťahu. Nič ti nepríde späť na kontrolu.',
+doneNo:'Zapísané: tento mesiac bez updatu. Vďaka, že si sa ozval.',
+another:'Poslať ďalší update',
+errSend:'Nepodarilo sa odoslať. Skontroluj pripojenie a skús to znova — odpovede zostávajú uložené v tomto zariadení.',
+retry:'Skúsiť znova',download:'Stiahnuť kópiu',ref:'Číslo',
+privacy:'Interný nástroj Aspironix · Odpovede vidí len David Šeketa',
+q:[['Kontakt','Stretnutia, hovory, maily so Solventom — s kým, kedy a o čom?'],
+['Záväzky','Čo sľúbil Solventum a čo sme sľúbili my? Kto, komu, do kedy — splnilo sa to?'],
+['Novinky','Čo je u nich nové? Ľudia, roly, ceny, dostupnosť prístrojov, produkty, marketing/MDF, kto o čom rozhoduje?'],
+['Vzorce','Prekvapilo ťa niečo, alebo sa niečo opakuje?'],
+['Neznáme','Čo nevieme a mali by sme zistiť?'],
+['Čokoľvek ďalšie','Je ešte niečo k Solventu, na čo sme sa nespýtali?']]},
+
+pl:{brand:'Aspironix · Wewnętrzne',eyebrow:'Miesięczny update – Solventum',title:'Co działo się z Solventum?',
+lead:'Sześć krótkich pytań. Napisz albo nagraj, w dowolnym języku. Trafia to bezpośrednio do Davida.',
+lock:'Tylko wewnętrznie — Solventum nigdy tego nie zobaczy',
+who:'Kim jesteś?',other:'Ktoś inny',otherPh:'Twoje imię',type:'Rodzaj updatu',
+monthly:'Update miesięczny',monthlySub:'Za miniony miesiąc',urgent:'Pilne',urgentSub:'Nie może czekać do końca miesiąca',
+urgentHint:'Eskalacja, zmiana cen, nowa osoba w Solventum, niedotrzymana obietnica — wyślij to od razu.',
+period:'Za który miesiąc?',how:'Jak chcesz odpowiedzieć?',
+write:'Napisać',writeSub:'Odpowiesz po kolei na sześć pytań',say:'Nagrać',saySub:'Nagrasz wiadomość głosową, pytania zobaczysz jako ściągę',
+nothing:'Nic się nie wydarzyło',nothingSub:'Wyślij szybkie „no update” — to też się liczy.',
+continue:'Dalej',back:'Wstecz',send:'Wyślij do Davida',sending:'Wysyłam…',
+writeTitle:'Twój update',optional:'Pomiń to, co cię nie dotyczy. Wystarczą punkty.',
+voiceTitle:'Nagraj swój update',guideTitle:'Omów te punkty — w dowolnej kolejności',guideTip:'Dotknij punktu, aby go odhaczyć w trakcie mówienia.',
+dictate:'Dyktuj',listening:'Słucham…',
+rec:'Dotknij, aby zacząć nagrywanie',recording:'Nagrywam — dotknij, aby zakończyć',recDone:'Nagrano. Odsłuchaj albo wyślij.',reRecord:'Odrzuć i nagraj ponownie',
+transcriptLabel:'Transkrypcja na żywo — możesz ją poprawić',transcriptPh:'Tutaj pojawi się to, co mówisz…',
+transcriptNA:'Transkrypcja na żywo nie działa w tej przeglądarce. Nic nie szkodzi — David dostanie nagranie.',
+noteLabel:'Chcesz coś dopisać? (opcjonalnie)',
+micDenied:'Dostęp do mikrofonu jest zablokowany. Zezwól na niego w ustawieniach przeglądarki albo wróć i wybierz „Napisać”.',
+needName:'Najpierw wybierz swoje imię.',needMode:'Wybierz, jak chcesz odpowiedzieć.',
+needContent:'Napisz przynajmniej jedną odpowiedź, nagraj wiadomość albo zaznacz „Nic się nie wydarzyło”.',
+needRec:'Najpierw nagraj wiadomość (albo coś dopisz).',
+doneTitle:'Dzięki — David już to ma.',doneSub:'Trafi to po angielsku do Kroniki relacji. Nic nie wróci do ciebie do sprawdzenia.',
+doneNo:'Zapisane: w tym miesiącu bez updatu. Dzięki za informację.',
+another:'Wyślij kolejny update',
+errSend:'Nie udało się wysłać. Sprawdź połączenie i spróbuj ponownie — odpowiedzi zostają zapisane na tym urządzeniu.',
+retry:'Spróbuj ponownie',download:'Pobierz kopię',ref:'Numer',
+privacy:'Wewnętrzne narzędzie Aspironix · Odpowiedzi widzi tylko David Šeketa',
+q:[['Kontakt','Spotkania, rozmowy, maile z Solventum — z kim, kiedy i w jakiej sprawie?'],
+['Zobowiązania','Co obiecał Solventum, a co obiecaliśmy my? Kto, komu, do kiedy — czy zostało zrealizowane?'],
+['Nowości','Co nowego u nich? Ludzie, role, ceny, dostępność urządzeń, produkty, marketing/MDF, kto o czym decyduje?'],
+['Wzorce','Czy coś cię zaskoczyło albo coś się powtarza?'],
+['Niewiadome','Czego nie wiemy, a powinniśmy się dowiedzieć?'],
+['Coś jeszcze','Czy jest coś jeszcze w sprawie Solventum, o co nie zapytaliśmy?']]}
+};
+const SPEECH_LANG = { en:'en-GB', cs:'cs-CZ', sk:'sk-SK', pl:'pl-PL' };
+const LOCALE = { en:'en-GB', cs:'cs-CZ', sk:'sk-SK', pl:'pl-PL' };
+
+/* =====================================================================
+   STATE + helpers
+   ===================================================================== */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const store = {
+  get(k){ try{ return JSON.parse(localStorage.getItem('su_'+k)); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem('su_'+k, JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem('su_'+k); }catch(e){} }
+};
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+
+const S = {
+  lang: store.get('lang') || guessLang(),
+  langManual: !!store.get('lang'),
+  person: null, other: '', type: 'monthly', period: '', mode: null, nothing: false,
+  answers: ['','','','','',''],
+  audio: null,          // {blob, mime, seconds}
+  sending: false
+};
+function guessLang(){
+  const l = (navigator.language || 'en').slice(0,2).toLowerCase();
+  return T[l] ? l : 'en';
+}
+const t = k => (T[S.lang] && T[S.lang][k] != null) ? T[S.lang][k] : T.en[k];
+
+/* =====================================================================
+   I18N render
+   ===================================================================== */
+function applyLang(){
+  document.documentElement.lang = S.lang;
+  $$('[data-t]').forEach(el => { el.textContent = t(el.dataset.t); });
+  $$('[data-tp]').forEach(el => { el.placeholder = t(el.dataset.tp); });
+  $$('#langs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === S.lang));
+  renderPeople(); renderPeriods(); renderQuestions(); renderGuide(); renderWhoPill();
+  setRecState();
+  if(S.nothing) $('#start-go span').textContent = t('send');
+  if(S.lastId && $('#s-done').classList.contains('is-active')) $('#ref').textContent = t('ref') + ': ' + S.lastId;
+}
+$('#langs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  S.lang = b.dataset.lang; S.langManual = true; store.set('lang', S.lang); applyLang();
+});
+
+/* people */
+function renderPeople(){
+  const box = $('#people'); box.innerHTML = '';
+  CONFIG.people.concat([{id:'other', name:t('other'), tag:''}]).forEach(p => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.dataset.id = p.id;
+    b.setAttribute('aria-pressed', S.person === p.id);
+    b.textContent = p.name;
+    if(p.tag){ const s = document.createElement('small'); s.textContent = '· ' + p.tag; b.appendChild(s); }
+    box.appendChild(b);
+  });
+  $('#other-wrap').style.display = S.person === 'other' ? 'block' : 'none';
+}
+$('#people').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if(!b) return;
+  S.person = b.dataset.id;
+  const p = CONFIG.people.find(x => x.id === S.person);
+  if(p && p.lang && !S.langManual){ S.lang = p.lang; applyLang(); } else renderPeople();
+  if(S.person === 'other') setTimeout(() => $('#other-name').focus(), 30);
+  loadDraft(); $('#start-err').textContent = '';
+});
+$('#other-name').addEventListener('input', e => { S.other = e.target.value; });
+
+/* type + period */
+function renderPeriods(){
+  const sel = $('#period'); const keep = S.period; sel.innerHTML = '';
+  const now = new Date(); const fmt = new Intl.DateTimeFormat(LOCALE[S.lang], {month:'long', year:'numeric'});
+  for(let i = 0; i < 4; i++){
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const v = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+    const o = document.createElement('option'); o.value = v;
+    const label = fmt.format(d); o.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+    sel.appendChild(o);
+  }
+  // default: previous month during the first half, otherwise current month
+  const def = new Date(now.getFullYear(), now.getMonth() - (now.getDate() <= 15 ? 1 : 0), 1);
+  S.period = keep || (def.getFullYear() + '-' + String(def.getMonth()+1).padStart(2,'0'));
+  sel.value = S.period;
+}
+$('#period').addEventListener('change', e => { S.period = e.target.value; });
+$$('.seg').forEach(b => b.addEventListener('click', () => {
+  S.type = b.dataset.type;
+  $$('.seg').forEach(x => x.setAttribute('aria-pressed', x === b));
+  $('#urgent-note').style.display = S.type === 'urgent' ? 'block' : 'none';
+  $('#period-wrap').style.display = S.type === 'urgent' ? 'none' : 'block';
+  if(S.type === 'urgent' && S.nothing){ S.nothing = false; $('#nothing').setAttribute('aria-pressed', false); }
+  $('#nothing').style.display = S.type === 'urgent' ? 'none' : 'flex';
+  renderWhoPill();
+}));
+
+/* mode */
+$$('.mode').forEach(b => b.addEventListener('click', () => {
+  S.mode = b.dataset.mode; S.nothing = false;
+  $$('.mode').forEach(x => x.setAttribute('aria-pressed', x === b));
+  $('#nothing').setAttribute('aria-pressed', false);
+  $('#start-err').textContent = '';
+}));
+$('#nothing').addEventListener('click', () => {
+  S.nothing = !S.nothing;
+  $('#nothing').setAttribute('aria-pressed', S.nothing);
+  if(S.nothing){ S.mode = null; $$('.mode').forEach(x => x.setAttribute('aria-pressed', false)); }
+  $('#start-go').querySelector('span').textContent = S.nothing ? t('send') : t('continue');
+  $('#start-err').textContent = '';
+});
+
+function personName(){
+  if(S.person === 'other') return (S.other || '').trim();
+  const p = CONFIG.people.find(x => x.id === S.person); return p ? p.name : '';
+}
+function renderWhoPill(){
+  $$('[data-whopill]').forEach(el => {
+    const name = personName();
+    const per = $('#period').selectedOptions[0];
+    el.textContent = name + ' · ' + (S.type === 'urgent' ? t('urgent') : (per ? per.textContent : ''));
+    el.classList.toggle('urgent', S.type === 'urgent');
+  });
+}
+
+/* =====================================================================
+   NAVIGATION
+   ===================================================================== */
+function show(id){
+  $$('.screen').forEach(s => s.classList.toggle('is-active', s.id === id));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+$('#start-go').addEventListener('click', () => {
+  const err = $('#start-err');
+  if(!S.person || (S.person === 'other' && !S.other.trim())){ err.textContent = t('needName'); return; }
+  if(S.nothing){ submit(); return; }
+  if(!S.mode){ err.textContent = t('needMode'); return; }
+  renderWhoPill();
+  show(S.mode === 'write' ? 's-write' : 's-voice');
+  if(S.mode === 'voice') prepVoice();
+});
+$$('[data-back]').forEach(b => b.addEventListener('click', () => { stopDictation(); if(rec.on) stopRecording(); show('s-start'); }));
+$('#another').addEventListener('click', () => location.reload());
+
+/* =====================================================================
+   WRITE MODE
+   ===================================================================== */
+function renderQuestions(){
+  const box = $('#qs'); box.innerHTML = '';
+  t('q').forEach(([title, prompt], i) => {
+    const d = document.createElement('div'); d.className = 'q' + (S.answers[i].trim() ? ' done' : ''); d.dataset.i = i;
+    d.innerHTML = '<div class="q__head"><div class="q__n">' + (i+1) + '</div><div class="q__t"><b></b><span></span></div></div>' +
+      '<textarea class="input" rows="3"></textarea>' +
+      (SR ? '<div class="q__foot"><button type="button" class="dict"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4"/></svg><span></span></button></div>' : '');
+    d.querySelector('b').textContent = title;
+    d.querySelector('.q__t span').textContent = prompt;
+    const ta = d.querySelector('textarea'); ta.value = S.answers[i];
+    ta.addEventListener('input', () => { S.answers[i] = ta.value; d.classList.toggle('done', !!ta.value.trim()); saveDraft(); });
+    const dict = d.querySelector('.dict');
+    if(dict){ dict.querySelector('span').textContent = t('dictate'); dict.addEventListener('click', () => toggleDictation(i, ta, dict)); }
+    box.appendChild(d);
+  });
+}
+
+/* per-field dictation (Web Speech API) */
+let dict = null;
+function toggleDictation(i, ta, btn){
+  if(dict && dict.i === i){ stopDictation(); return; }
+  stopDictation();
+  const r = new SR(); r.lang = SPEECH_LANG[S.lang]; r.continuous = true; r.interimResults = true;
+  const base = ta.value ? ta.value.replace(/\s*$/, ' ') : '';
+  let finalText = '';
+  r.onresult = ev => {
+    let interim = '';
+    for(let k = ev.resultIndex; k < ev.results.length; k++){
+      const res = ev.results[k];
+      if(res.isFinal) finalText += res[0].transcript.trim() + ' ';
+      else interim += res[0].transcript;
+    }
+    ta.value = (base + finalText + interim).trimStart();
+    S.answers[i] = ta.value; ta.closest('.q').classList.toggle('done', !!ta.value.trim());
+  };
+  r.onerror = ev => { if(ev.error === 'not-allowed' || ev.error === 'service-not-allowed') $('#write-err').textContent = t('micDenied'); };
+  r.onend = () => { if(dict && dict.r === r){ if(dict.keep){ try{ r.start(); return; }catch(e){} } finishDict(); } };
+  dict = { i, r, btn, keep:true };
+  btn.classList.add('on'); btn.querySelector('span').textContent = t('listening');
+  try{ r.start(); }catch(e){ finishDict(); }
+}
+function finishDict(){
+  if(!dict) return;
+  dict.btn.classList.remove('on'); dict.btn.querySelector('span').textContent = t('dictate');
+  dict = null; saveDraft();
+}
+function stopDictation(){ if(!dict) return; dict.keep = false; try{ dict.r.stop(); }catch(e){} finishDict(); }
+
+/* drafts (per person, this device only) */
+function draftKey(){ return 'draft_' + (S.person || 'x'); }
+function saveDraft(){ store.set(draftKey(), { answers:S.answers, transcript:$('#transcript').value, note:$('#note').value }); }
+function loadDraft(){
+  const d = store.get(draftKey());
+  S.answers = (d && Array.isArray(d.answers)) ? d.answers.slice(0,6).map(x => x || '') : ['','','','','',''];
+  $('#transcript').value = (d && d.transcript) || ''; $('#note').value = (d && d.note) || '';
+  renderQuestions();
+}
+
+/* =====================================================================
+   VOICE MODE — MediaRecorder + live transcript
+   ===================================================================== */
+function renderGuide(){
+  const ol = $('#guide'); const ticked = $$('#guide li.ticked').map(li => li.dataset.i);
+  ol.innerHTML = '';
+  t('q').forEach(([title, prompt], i) => {
+    const li = document.createElement('li'); li.dataset.i = i;
+    if(ticked.includes(String(i))) li.classList.add('ticked');
+    li.innerHTML = '<div class="n">' + (i+1) + '</div><div><b></b><span></span></div>';
+    li.querySelector('b').textContent = title; li.querySelector('span').textContent = prompt;
+    li.addEventListener('click', () => li.classList.toggle('ticked'));
+    ol.appendChild(li);
+  });
+}
+const meter = $('#meter');
+for(let i = 0; i < 26; i++) meter.appendChild(document.createElement('i'));
+
+const rec = { on:false, mr:null, stream:null, chunks:[], t0:0, timer:null, ctx:null, an:null, raf:null, sr:null, srOk:!!SR, finalTx:'' };
+
+function prepVoice(){
+  $('#tx').style.display = SR ? 'block' : 'none';
+  $('#tx-na').style.display = SR ? 'none' : 'block';
+  setRecState();
+}
+function setRecState(){
+  const st = $('#recstate'); if(!st) return;
+  st.textContent = rec.on ? t('recording') : (S.audio ? t('recDone') : t('rec'));
+  $('#ic-mic').style.display = rec.on ? 'none' : 'block';
+  $('#ic-stop').style.display = rec.on ? 'block' : 'none';
+  $('#recbtn').classList.toggle('on', rec.on);
+  $('#rec').classList.toggle('live', rec.on);
+  $('#rerec').style.display = (!rec.on && S.audio) ? 'inline-block' : 'none';
+  $('#playback').style.display = (!rec.on && S.audio) ? 'block' : 'none';
+  $('#recbtn').style.display = (!rec.on && S.audio) ? 'none' : 'flex';
+}
+function pickMime(){
+  if(!window.MediaRecorder) return '';
+  const c = ['audio/webm;codecs=opus','audio/webm','audio/mp4;codecs=mp4a.40.2','audio/mp4','audio/ogg;codecs=opus'];
+  return c.find(m => { try{ return MediaRecorder.isTypeSupported(m); }catch(e){ return false; } }) || '';
+}
+$('#recbtn').addEventListener('click', () => rec.on ? stopRecording() : startRecording());
+$('#rerec').addEventListener('click', () => {
+  S.audio = null; $('#audio').removeAttribute('src'); $('#timer').textContent = '0:00';
+  $('#transcript').value = ''; rec.finalTx = ''; saveDraft(); setRecState();
+});
+
+async function startRecording(){
+  $('#voice-err').textContent = '';
+  if(!navigator.mediaDevices || !window.MediaRecorder){ $('#voice-err').textContent = t('micDenied'); return; }
+  try{
+    rec.stream = await navigator.mediaDevices.getUserMedia({ audio:{ echoCancellation:true, noiseSuppression:true } });
+  }catch(e){ $('#voice-err').textContent = t('micDenied'); return; }
+  const mime = pickMime();
+  try{ rec.mr = new MediaRecorder(rec.stream, mime ? { mimeType:mime, audioBitsPerSecond:32000 } : { audioBitsPerSecond:32000 }); }
+  catch(e){ rec.mr = new MediaRecorder(rec.stream); }
+  rec.chunks = [];
+  rec.mr.ondataavailable = ev => { if(ev.data && ev.data.size) rec.chunks.push(ev.data); };
+  rec.mr.onstop = () => {
+    const type = (rec.mr && rec.mr.mimeType) || mime || 'audio/webm';
+    const blob = new Blob(rec.chunks, { type });
+    const secs = Math.round((Date.now() - rec.t0) / 1000);
+    S.audio = { blob, mime:type.split(';')[0], seconds:secs };
+    $('#audio').src = URL.createObjectURL(blob);
+    setRecState();
+  };
+  rec.mr.start(1000);
+  rec.on = true; rec.t0 = Date.now(); setRecState();
+  rec.timer = setInterval(() => {
+    const s = Math.floor((Date.now() - rec.t0) / 1000);
+    $('#timer').textContent = Math.floor(s/60) + ':' + String(s%60).padStart(2,'0');
+    if(s >= CONFIG.maxRecordSeconds) stopRecording();
+  }, 250);
+  startMeter(); startLiveTranscript();
+}
+function stopRecording(){
+  rec.on = false; clearInterval(rec.timer); stopMeter(); stopLiveTranscript();
+  try{ if(rec.mr && rec.mr.state !== 'inactive') rec.mr.stop(); }catch(e){}
+  if(rec.stream) rec.stream.getTracks().forEach(tr => tr.stop());
+  setRecState(); saveDraft();
+}
+function startMeter(){
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext; rec.ctx = new AC();
+    const src = rec.ctx.createMediaStreamSource(rec.stream); rec.an = rec.ctx.createAnalyser(); rec.an.fftSize = 64;
+    src.connect(rec.an); const data = new Uint8Array(rec.an.frequencyBinCount); const bars = $$('#meter i');
+    const loop = () => { rec.an.getByteFrequencyData(data);
+      bars.forEach((b, i) => { const v = data[(i + 2) % data.length] / 255; b.style.height = Math.max(4, Math.round(v * 30)) + 'px'; });
+      rec.raf = requestAnimationFrame(loop); };
+    loop();
+  }catch(e){}
+}
+function stopMeter(){ cancelAnimationFrame(rec.raf); try{ rec.ctx && rec.ctx.close(); }catch(e){} $$('#meter i').forEach(b => b.style.height = '4px'); }
+
+function startLiveTranscript(){
+  if(!SR) return;
+  const ta = $('#transcript'); const base = ta.value ? ta.value.replace(/\s*$/, ' ') : '';
+  rec.finalTx = '';
+  const r = new SR(); r.lang = SPEECH_LANG[S.lang]; r.continuous = true; r.interimResults = true;
+  r.onresult = ev => {
+    let interim = '';
+    for(let k = ev.resultIndex; k < ev.results.length; k++){
+      const res = ev.results[k];
+      if(res.isFinal) rec.finalTx += res[0].transcript.trim() + ' ';
+      else interim += res[0].transcript;
+    }
+    ta.value = (base + rec.finalTx).trimStart(); $('#interim').textContent = interim;
+  };
+  r.onerror = ev => {
+    if(['audio-capture','not-allowed','service-not-allowed','network'].includes(ev.error)){
+      rec.srOk = false; $('#tx').classList.remove('live'); $('#tx-na').style.display = 'block';
+    }
+  };
+  r.onend = () => { if(rec.on && rec.srOk && rec.sr === r){ try{ r.start(); }catch(e){} } };
+  rec.sr = r; rec.srOk = true; $('#tx').classList.add('live');
+  try{ r.start(); }catch(e){ rec.srOk = false; }
+}
+function stopLiveTranscript(){
+  $('#tx').classList.remove('live'); $('#interim').textContent = '';
+  if(rec.sr){ const r = rec.sr; rec.sr = null; try{ r.stop(); }catch(e){} }
+}
+$('#transcript').addEventListener('input', saveDraft);
+$('#note').addEventListener('input', saveDraft);
+
+/* =====================================================================
+   SUBMIT
+   ===================================================================== */
+function blobToB64(blob){
+  return new Promise((res, rej) => { const fr = new FileReader();
+    fr.onload = () => res(String(fr.result).split(',')[1] || ''); fr.onerror = rej; fr.readAsDataURL(blob); });
+}
+function newId(){
+  const d = new Date(); const p = n => String(n).padStart(2,'0');
+  return 'SU-' + d.getFullYear() + p(d.getMonth()+1) + p(d.getDate()) + '-' + p(d.getHours()) + p(d.getMinutes()) + '-' + Math.random().toString(36).slice(2,6).toUpperCase();
+}
+async function buildPayload(){
+  const p = CONFIG.people.find(x => x.id === S.person);
+  const per = $('#period').selectedOptions[0];
+  const payload = {
+    key: CONFIG.key, v: 1, id: S.lastId || (S.lastId = newId()), submittedAt: new Date().toISOString(),
+    person: personName(), personTag: p ? p.tag : '', type: S.type,
+    period: S.type === 'urgent' ? '' : S.period, periodLabel: S.type === 'urgent' ? '' : (per ? per.textContent : ''),
+    lang: S.lang, mode: S.nothing ? 'none' : S.mode, noUpdate: S.nothing,
+    answers: S.mode === 'write' && !S.nothing ? S.answers.map(a => a.trim()) : ['','','','','',''],
+    transcript: S.mode === 'voice' ? $('#transcript').value.trim() : '',
+    note: S.mode === 'voice' ? $('#note').value.trim() : '',
+    audio: null, userAgent: navigator.userAgent.slice(0, 180)
+  };
+  if(S.mode === 'voice' && S.audio && !S.nothing){
+    payload.audio = { mime: S.audio.mime, seconds: S.audio.seconds, b64: await blobToB64(S.audio.blob) };
+  }
+  return payload;
+}
+function validate(){
+  if(S.nothing) return '';
+  if(S.mode === 'write' && !S.answers.some(a => a.trim())) return t('needContent');
+  if(S.mode === 'voice' && !S.audio && !$('#note').value.trim() && !$('#transcript').value.trim()) return t('needRec');
+  return '';
+}
+async function submit(){
+  if(S.sending) return;
+  stopDictation(); if(rec.on) stopRecording();
+  const errEl = S.nothing ? $('#start-err') : (S.mode === 'write' ? $('#write-err') : $('#voice-err'));
+  const v = validate(); if(v){ errEl.textContent = v; return; }
+  errEl.textContent = '';
+  S.sending = true; setSending(true);
+  let payload;
+  try{
+    payload = await buildPayload();
+    if(!CONFIG.endpoint || CONFIG.endpoint.indexOf('http') !== 0) throw new Error('No endpoint configured');
+    const res = await fetch(CONFIG.endpoint, { method:'POST', body: JSON.stringify(payload), redirect:'follow' });
+    const out = await res.json().catch(() => ({}));
+    if(!res.ok || !out.ok) throw new Error(out.error || ('HTTP ' + res.status));
+    store.del(draftKey());
+    $('#ref').textContent = t('ref') + ': ' + payload.id;
+    if(S.nothing) $('#s-done .lead').textContent = t('doneNo');
+    show('s-done');
+  }catch(e){
+    console.warn('[submit]', e);
+    S.lastPayload = payload;
+    $$('[data-sendbox]').forEach(b => b.style.display = 'block');
+    if(S.nothing) errEl.textContent = t('errSend');
+  }finally{ S.sending = false; setSending(false); }
+}
+function setSending(on){
+  $$('[data-send], #start-go').forEach(b => { b.disabled = on; const s = b.querySelector('span');
+    if(s) s.textContent = on ? t('sending') : (b.id === 'start-go' ? (S.nothing ? t('send') : t('continue')) : t('send')); });
+}
+$$('[data-send]').forEach(b => b.addEventListener('click', submit));
+$$('[data-retry]').forEach(b => b.addEventListener('click', () => { $$('[data-sendbox]').forEach(x => x.style.display = 'none'); submit(); }));
+$$('[data-download]').forEach(b => b.addEventListener('click', async () => {
+  const p = S.lastPayload || await buildPayload();
+  const lines = ['Solventum update — ' + p.person + ' — ' + (p.periodLabel || p.type) + ' — ' + p.id, ''];
+  if(p.noUpdate) lines.push('No update.');
+  t('q').forEach(([title], i) => { if(p.answers[i]) lines.push((i+1) + '. ' + title + '\n' + p.answers[i] + '\n'); });
+  if(p.transcript) lines.push('Transcript:\n' + p.transcript + '\n');
+  if(p.note) lines.push('Note:\n' + p.note + '\n');
+  const dl = (blob, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); };
+  dl(new Blob([lines.join('\n')], { type:'text/plain' }), p.id + '.txt');
+  if(S.audio) dl(S.audio.blob, p.id + (S.audio.mime.indexOf('mp4') > -1 ? '.m4a' : '.webm'));
+}));
+
+/* init */
+applyLang();
+</script>
+</body>
+</html>
