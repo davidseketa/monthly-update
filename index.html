@@ -351,7 +351,7 @@ write:'Write it',writeSub:'Answer the six questions one by one',say:'Say it',say
 nothing:'Nothing happened',nothingSub:'Send a quick “no update” — that counts too.',
 continue:'Continue',back:'Back',send:'Send to David',sending:'Sending…',
 writeTitle:'Your update',optional:'Skip anything that doesn’t apply. Bullet points are fine.',
-voiceTitle:'Record your update',guideTitle:'Talk through these — any order',guideTip:'Tap a point to tick it off while you talk.',
+voiceTitle:'Record your update',guideTitle:'Talk through these — any order',guideTip:'Tap a point to tick it off while you talk. Say abbreviations letter by letter (N-P-W-T) or use the full term (negative pressure, dressings) — the transcript handles them better.',
 dictate:'Dictate',listening:'Listening…',
 rec:'Tap to start recording',recording:'Recording — tap to stop',recDone:'Recorded. Listen back or send.',reRecord:'Discard and record again',
 transcriptLabel:'Live transcript — you can correct it',transcriptPh:'Your words appear here while you speak…',
@@ -385,7 +385,7 @@ write:'Napsat',writeSub:'Odpovíš postupně na šest otázek',say:'Namluvit',sa
 nothing:'Nic se nestalo',nothingSub:'Pošli rychlé „no update“ — i to se počítá.',
 continue:'Pokračovat',back:'Zpět',send:'Odeslat Davidovi',sending:'Odesílám…',
 writeTitle:'Tvůj update',optional:'Co se tě netýká, přeskoč. Stačí odrážky.',
-voiceTitle:'Namluv svůj update',guideTitle:'Projdi tyhle body — v libovolném pořadí',guideTip:'Během mluvení si bod ťukem odškrtneš.',
+voiceTitle:'Namluv svůj update',guideTitle:'Projdi tyhle body — v libovolném pořadí',guideTip:'Během mluvení si bod ťukem odškrtneš. Zkratky říkej po písmenech (N-P-W-T) nebo celým názvem (podtlak, krytí) — přepis je pak přesnější.',
 dictate:'Diktovat',listening:'Poslouchám…',
 rec:'Klepni a začni nahrávat',recording:'Nahrávám — klepnutím ukončíš',recDone:'Nahráno. Poslechni si to, nebo odešli.',reRecord:'Zahodit a nahrát znovu',
 transcriptLabel:'Přepis v reálném čase — můžeš ho opravit',transcriptPh:'Tady se objeví, co říkáš…',
@@ -419,7 +419,7 @@ write:'Napísať',writeSub:'Odpovieš postupne na šesť otázok',say:'Nahovori�
 nothing:'Nič sa nestalo',nothingSub:'Pošli rýchle „no update“ — aj to sa počíta.',
 continue:'Pokračovať',back:'Späť',send:'Odoslať Davidovi',sending:'Odosielam…',
 writeTitle:'Tvoj update',optional:'Čo sa ťa netýka, preskoč. Stačia odrážky.',
-voiceTitle:'Nahovor svoj update',guideTitle:'Prejdi tieto body — v ľubovoľnom poradí',guideTip:'Počas rozprávania si bod ťuknutím odškrtneš.',
+voiceTitle:'Nahovor svoj update',guideTitle:'Prejdi tieto body — v ľubovoľnom poradí',guideTip:'Počas rozprávania si bod ťuknutím odškrtneš. Skratky hovor po písmenách (N-P-W-T) alebo celým názvom (podtlak, krytie) — prepis je potom presnejší.',
 dictate:'Diktovať',listening:'Počúvam…',
 rec:'Ťukni a začni nahrávať',recording:'Nahrávam — ťuknutím ukončíš',recDone:'Nahrané. Vypočuj si to alebo odošli.',reRecord:'Zahodiť a nahrať znova',
 transcriptLabel:'Prepis v reálnom čase — môžeš ho opraviť',transcriptPh:'Tu sa objaví, čo hovoríš…',
@@ -453,7 +453,7 @@ write:'Napisać',writeSub:'Odpowiesz po kolei na sześć pytań',say:'Nagrać',s
 nothing:'Nic się nie wydarzyło',nothingSub:'Wyślij szybkie „no update” — to też się liczy.',
 continue:'Dalej',back:'Wstecz',send:'Wyślij do Davida',sending:'Wysyłam…',
 writeTitle:'Twój update',optional:'Pomiń to, co cię nie dotyczy. Wystarczą punkty.',
-voiceTitle:'Nagraj swój update',guideTitle:'Omów te punkty — w dowolnej kolejności',guideTip:'Dotknij punktu, aby go odhaczyć w trakcie mówienia.',
+voiceTitle:'Nagraj swój update',guideTitle:'Omów te punkty — w dowolnej kolejności',guideTip:'Dotknij punktu, aby go odhaczyć w trakcie mówienia. Skróty wymawiaj literami (N-P-W-T) albo pełną nazwą (podciśnienie, opatrunki) — transkrypcja będzie dokładniejsza.',
 dictate:'Dyktuj',listening:'Słucham…',
 rec:'Dotknij, aby zacząć nagrywanie',recording:'Nagrywam — dotknij, aby zakończyć',recDone:'Nagrano. Odsłuchaj albo wyślij.',reRecord:'Odrzuć i nagraj ponownie',
 transcriptLabel:'Transkrypcja na żywo — możesz ją poprawić',transcriptPh:'Tutaj pojawi się to, co mówisz…',
@@ -640,6 +640,38 @@ function renderQuestions(){
   });
 }
 
+/* =====================================================================
+   GLOSSARY — fixes how browser speech recognition hears our terms.
+   Add a line per term: [regex of what it hears, what it should be].
+   ===================================================================== */
+const GLOSSARY = [
+  ['n\\s?p\\s?w\\s?t|n\\s?p\\s?v\\s?t|npvt|en\\s?p[eé]\\s?v[eé]\\s?t[eé]|n\\.p\\.w\\.t\\.?', 'NPWT'],
+  ['a\\s?w\\s?d|a\\s?v\\s?d|avd|[aá]\\s?v[eé]\\s?d[eé]|a\\.w\\.d\\.?', 'AWD'],
+  ['v\\s?a\\s?c|v[aá]k|vac|v[eé]\\s?[aá]\\s?c[eé]|v\\.a\\.c\\.?', 'V.A.C.'],
+  ['m\\s?d\\s?f|em\\s?d[eé]\\s?ef|m\\.d\\.f\\.?', 'MDF'],
+  ['m\\s?d\\s?r|em\\s?d[eé]\\s?er', 'MDR'],
+  ['solvent[uů]m|solventu|sol\\s?ventum|solventam', 'Solventum'],
+  ['aspironix|aspironics|aspi\\s?ronix|aspironyx', 'Aspironix'],
+  ['prevena|prew[eé]na|privena', 'Prevena'],
+  ['veraflo|vera\\s?flow|verafl[oó]', 'Veraflo'],
+  ['tegaderm|tega\\s?derm', 'Tegaderm'],
+  ['czech\\s?med|ček\\s?med|češ\\s?med', 'CzechMed'],
+  ['v\\s?[sš]\\s?z\\s?p|v[eé]\\s?[eé]š\\s?zet\\s?p[eé]', 'VšZP'],
+  ['n\\s?f\\s?z|en\\s?ef\\s?zet', 'NFZ'],
+  ['[sš]tefan|stephan|stefan', 'Štefan'],
+  ['sl[aá]vek|slavek', 'Slávek'],
+  ['tarek|tarik|tareq', 'Tarek'],
+  ['khaled|chaled|kaled|halid', 'Khaled'],
+  ['kvetka|kv[eě]tka', 'Kvetka'],
+  ['wound\\s?care|vound\\s?care|wund\\s?care', 'wound care'],
+  ['fn\\s?motol|f\\s?n\\s?motol|ef\\s?en\\s?motol', 'FN Motol']
+].map(([re, to]) => [new RegExp('(?<![\\\\p{L}\\\\p{N}])(?:' + re + ')(?![\\\\p{L}\\\\p{N}])', 'giu'), to]);
+function fixTerms(text){
+  let out = text;
+  for(const [re, to] of GLOSSARY) out = out.replace(re, to);
+  return out;
+}
+
 /* per-field dictation (Web Speech API) */
 let dict = null;
 function toggleDictation(i, ta, btn){
@@ -652,7 +684,7 @@ function toggleDictation(i, ta, btn){
     let interim = '';
     for(let k = ev.resultIndex; k < ev.results.length; k++){
       const res = ev.results[k];
-      if(res.isFinal) finalText += res[0].transcript.trim() + ' ';
+      if(res.isFinal) finalText += fixTerms(res[0].transcript.trim()) + ' ';
       else interim += res[0].transcript;
     }
     ta.value = (base + finalText + interim).trimStart();
@@ -784,7 +816,7 @@ function startLiveTranscript(){
     let interim = '';
     for(let k = ev.resultIndex; k < ev.results.length; k++){
       const res = ev.results[k];
-      if(res.isFinal) rec.finalTx += res[0].transcript.trim() + ' ';
+      if(res.isFinal) rec.finalTx += fixTerms(res[0].transcript.trim()) + ' ';
       else interim += res[0].transcript;
     }
     ta.value = (base + rec.finalTx).trimStart(); $('#interim').textContent = interim;
