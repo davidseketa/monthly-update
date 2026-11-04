@@ -550,7 +550,7 @@ $('#other-name').addEventListener('input', e => { S.other = e.target.value; });
 function renderPeriods(){
   const sel = $('#period'); const keep = S.period; sel.innerHTML = '';
   const now = new Date(); const fmt = new Intl.DateTimeFormat(LOCALE[S.lang], {month:'long', year:'numeric'});
-  for(let i = 0; i < 12; i++){
+  for(let i = 0; i < 13; i++){
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     const v = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
     const o = document.createElement('option'); o.value = v;
