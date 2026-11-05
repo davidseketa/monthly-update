@@ -1,0 +1,4 @@
+# Lokální interní podklady (instrukce agenta, poznámky) – nikdy necommitovat
+private/
+.DS_Store
+__pycache__/
