@@ -30,9 +30,9 @@ Excel Chronicle_update_YYYY-MM-DD.xlsx → složka „Solventum – kronika (age
 |---|---|
 | `index.html` | Celá stránka v jednom souboru (HTML + CSS + JS), bez build kroku a bez knihoven. Jediná externí věc je Google Fonts (Inter). |
 | `apps-script/Code.gs` | **Kopie** backendu. Živá verze je v Google Apps Script (viz níže) a nasazuje se ručně. |
-| `agent/scheduled-task-prompt.md` | **Kopie** instrukcí agenta. Živá verze je v naplánované úloze v Claude. |
 | `tests/smoke_test.py` | Playwright smoke test stránky. Backend mockuje, nic neodesílá. |
 | `README.md` | Popis pro lidi. |
+| `.gitignore` | Ignoruje složku `private/` (lokální podklady, které nesmí do veřejného repa). |
 
 Struktura `index.html` (v pořadí):
 - `CONFIG`: adresa backendu, `key`, seznam lidí (`id`, `name`, `tag`, `lang`), max. délka nahrávky.
@@ -46,9 +46,9 @@ Struktura `index.html` (v pořadí):
 | Co | Kde / ID |
 |---|---|
 | Stránka (odkaz pro kolegy) | https://davidseketa.github.io/monthly-update/ (GitHub Pages z větve `main`, root; nasazení cca 1 min po pushi) |
-| Apps Script projekt | „Solventum Monthly Update“, ID `11iEZKzYTAU4N_K5IsFgx5YX1xSuTwTjRIopNkVG6IaDBx0J51n-Spc7G`, vlastník osobní Google účet `dseketa201221@gmail.com`. Editor: https://script.google.com/home/projects/11iEZKzYTAU4N_K5IsFgx5YX1xSuTwTjRIopNkVG6IaDBx0J51n-Spc7G/edit |
+| Apps Script projekt | „Solventum Monthly Update“, ID `11iEZKzYTAU4N_K5IsFgx5YX1xSuTwTjRIopNkVG6IaDBx0J51n-Spc7G`, vlastník je Davidův osobní Google účet. Editor: https://script.google.com/home/projects/11iEZKzYTAU4N_K5IsFgx5YX1xSuTwTjRIopNkVG6IaDBx0J51n-Spc7G/edit |
 | Web app (backend) | Deployment ID `AKfycbx8dRoKfc0PSQv92dhZKqrKztMLNEGkm7UBMhIXFiuXtASGnCrsAibUgYBb_1FOOZTQcQ`, URL je v `CONFIG.endpoint`. Spouští se jako vlastník, přístup „Kdokoli“. Verze 3 (od 27. 10. 2026). |
-| Inbox tabulka | „Solventum Monthly Update – Inbox“, ID `1n1Z16j69LVWYhnHp7iEVX0SJN1xK93KA7GsVg7WinU0`, list `Responses`. Je na osobním účtu, nasdílená jen pro čtení klubovému účtu `david.seketa@klubinvestoru.com`, protože Google konektory v Claude běží pod klubovým účtem. |
+| Inbox tabulka | „Solventum Monthly Update – Inbox“, ID `1n1Z16j69LVWYhnHp7iEVX0SJN1xK93KA7GsVg7WinU0`, list `Responses`. Je na osobním účtu, nasdílená jen pro čtení Davidovu klubovému účtu (Klub investorů), protože Google konektory v Claude běží pod klubovým účtem. |
 | Nahrávky | Drive složka „Solventum Monthly Update – Voice“, ID `1AF_4vp0T_r8PWS6bp-QRrLIG0uvwdjVP` (osobní účet) |
 | Výstupy agenta | Drive složka „Solventum – kronika (agent)“, ID `1kaQxJqGAoI9zZPIAVZ2MqY7LgjZLDTJx` (klubový účet). Podle souborů v ní agent pozná, co už zpracoval (list Summary, sloupec Reference). |
 | Agent | Naplánovaná úloha „Solventum – updaty do kroniky“, ID `trig_01SFb9m4RyiMG5wg2K8GKKDv`, `CRON_TZ=Europe/Prague 47 7 * * 1-5`, automatické schvalování, push notifikace |
@@ -74,7 +74,7 @@ Agent čte tabulku podle názvů sloupců. Změna sloupců nebo payloadu proto z
 4. Když kód začne používat novou službu Googlu, spusť v editoru funkci `setup` a autorizuj ji (Rozšířené → Přejít na Solventum Monthly Update → Vybrat vše → Pokračovat).
 5. Do tabulky „Kde co běží“ zapiš nové číslo verze.
 
-**Agent:** instrukce se mění v naplánované úloze. Buď v Claude v přehledu naplánovaných úloh, nebo v session, která má nástroj `update_trigger` (ID výše). Pak zkopíruj novou verzi do `agent/scheduled-task-prompt.md`.
+**Agent:** instrukce existují jen v naplánované úloze a do repa se **nedávají**, protože obsahují interní hodnocení lidí ze Solventa a vyjednávací pravidla. Upravují se v Claude v přehledu naplánovaných úloh, nebo v session, která má nástroje `list_triggers` a `update_trigger` (ID výše). David si může nechat lokální kopii v `private/scheduled-task-prompt.md`. Složka je v `.gitignore`, takže se nikdy necommitne.
 
 ## Konvence
 
@@ -103,3 +103,4 @@ Ruční test proti živému backendu: vyber „Někdo jiný“ a jako jméno nap
 - Neměnit `KEY` jen na jedné straně.
 - Neposílat na živý backend testovací data bez „TEST“ ve jménu.
 - Nepřidávat build krok ani knihovny. Stránka musí zůstat jeden statický soubor.
+- **Repo je veřejné.** Necommitovat obsah updatů, data z tabulky, nahrávky, instrukce agenta ani nic z Kroniky vztahu. Interní věci patří do `private/`.
